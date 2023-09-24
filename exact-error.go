@@ -22,6 +22,7 @@ func main() {
 		{"Input", "Output", "Error"},
 	}
 
+	// loop through step sizes beginning with 0.1
 	for j:=10.0; j < 1000000; j = j * 10 {
 
 		var stepSize float64
@@ -33,6 +34,7 @@ func main() {
 
 		log.Print(fmt.Sprintf("Calculating grades with step size %v", stepSize))
 
+		// loop through grades 1 to 7 and checking for conversion errors
 		for i:=1.0; i<=7.0; i+=stepSize {
 			input := i
 			input = roundFloat(input, standardRoundingSize) // round on 10 decimal places
