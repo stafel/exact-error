@@ -15,16 +15,19 @@ func roundFloat(val float64, precision uint) float64 {
 
 
 func main() {
+
+	standardRoundingSize := uint(10)
+
 	data := [][]string{
 		{"Input", "Output", "Error"},
 	}
 
-	for j:=10.0; j < 10000000; j = j * 10 {
+	for j:=10.0; j < 1000000; j = j * 10 {
 
 		var stepSize float64
 		stepSize = 1.0 / j
 
-		roundingSize := uint(math.Log10(j)) // this is the precision, number of after comma numbers
+		roundingSize := uint(math.Log10(j)) // this is the precision, decimal places
 
 		stepSize = roundFloat(stepSize, roundingSize)
 
@@ -32,18 +35,20 @@ func main() {
 
 		for i:=1.0; i<=7.0; i+=stepSize {
 			input := i
-			input = roundFloat(input, roundingSize)
+			input = roundFloat(input, standardRoundingSize) // round on 10 decimal places
+			//input = roundFloat(input, roundingSize)  // round on the number of entered decimal places
 
 			output := i / 6.0 * 100.0
 			output = output / 100.0 * 6.0
-			output = roundFloat(output, roundingSize)
+			output = roundFloat(output, standardRoundingSize) // round on 10 decimal places
+			//output = roundFloat(output, roundingSize) // round on the number of entered decimal places
 
 			diffError := input - output
 
-			if diffError != 0.0 {
-			input := roundFloat(i, 5)
+			// if you want to stop if a rounding error is encountered
+			/*if diffError != 0.0 {
 				log.Fatal(fmt.Sprintf("Found difference error at step size %v and rounding %v with input %v, output %v, error %v", stepSize, roundingSize, input, output, diffError))
-			}
+			}*/
 
 			newSlice := []string{fmt.Sprintf("%v", input), fmt.Sprintf("%v", output), fmt.Sprintf("%v", diffError)}
 			data = append(data, newSlice)
